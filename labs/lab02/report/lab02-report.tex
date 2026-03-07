@@ -1,0 +1,565 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  12pt,
+  a4paper,
+  DIV=11,
+  numbers=noendperiod]{scrreprt}
+
+\usepackage{amsmath,amssymb}
+\usepackage{setspace}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage{indentfirst}
+\usepackage{float}
+\floatplacement{figure}{H}
+\IfFileExists{plex-otf.sty}{
+  %% Full TeXlive
+  \usepackage[
+    % math,
+    RM={Scale=0.94},SS={Scale=0.94},SScon={Scale=0.94},TT={Scale=MatchLowercase,FakeStretch=0.9},
+    DefaultFeatures={Ligatures=Common}
+  ]{plex-otf}
+  % \usepackage[Scale=MatchUppercase]{juliamono}
+}{
+  %% TinyTeX
+  \usepackage{libertine}
+}
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Содержание}
+\else
+  \newcommand\contentsname{Содержание}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Список иллюстраций}
+\else
+  \newcommand\listfigurename{Список иллюстраций}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Список таблиц}
+\else
+  \newcommand\listtablename{Список таблиц}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Рисунок}
+\else
+  \newcommand\figurename{Рисунок}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Таблица}
+\else
+  \newcommand\tablename{Таблица}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Список}
+\newcommand*\listoflistings{\listof{codelisting}{Листинги}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{russian}
+\babelprovide[import]{english}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+\usepackage[style=gost-numeric,backend=biber,langhook=extras,autolang=other*]{biblatex}
+\addbibresource{bib/cite.bib}
+\usepackage{csquotes}
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Отчет по выполнению лабораторной работы №2},
+  pdfauthor={Пашутина Анна Алексеевна},
+  pdflang={ru-RU},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Отчет по выполнению лабораторной работы №2}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Первоначальная настройка git}
+\author{Пашутина Анна Алексеевна}
+\date{}
+
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Содержание}
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\listoffigures
+\listoftables
+
+\setstretch{1.5}
+\chapter{Цель
+работы}\label{ux446ux435ux43bux44c-ux440ux430ux431ux43eux442ux44b}
+
+Изучить идеологию и применение средств контроля версий. Освоить умения
+по работе с git.
+
+\chapter{Задание}\label{ux437ux430ux434ux430ux43dux438ux435}
+
+Создать базовую конфигурацию для работы с git. Создать ключ SSH. Создать
+ключ PGP. Настроить подписи git. Зарегистрироваться на Github. Создать
+локальный каталог для выполнения заданий по предмету. \# Теоретическое
+введение
+
+\#Выполнение лабораторной работы.
+
+Для начала установим git. В моем случае установлен (рис. 1)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image1.png}}
+
+}
+
+\caption{Установка git}
+
+\end{figure}%
+
+Теперь установим gh. (рис. 2)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image2.png}}
+
+}
+
+\caption{Установка gh}
+
+\end{figure}%
+
+Далее зададим имя для владельца репозитория. В данном случае это мои
+фамилия и имя. (рис. 3)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image3.png}}
+
+}
+
+\caption{Указываю имя владельца репозитория}
+
+\end{figure}%
+
+Теперь зададим почту. Я задала ту почту, на которую зарегистрирован мой
+аккаунт Github. (рис. 4)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image4.png}}
+
+}
+
+\caption{Указываю почту}
+
+\end{figure}%
+
+Настроим кодировку utf8 в выводе соообщений git. (рис. 5)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image5.png}}
+
+}
+
+\caption{Настраиваю кодировку utf8}
+
+\end{figure}%
+
+Зададим имя начальной ветки, настроим параметры autocrlf и safecrlf.
+(рис. 6)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image6.png}}
+
+}
+
+\caption{Задаю имя начальной ветки и настриваю 2 параметра}
+
+\end{figure}%
+
+Создадим ключ RSA размером 4096 бит. (рис. 7)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image7.png}}
+
+}
+
+\caption{Создание ключа RSA}
+
+\end{figure}%
+
+Теперь создадим ключ по алгоритму ed25519 (рис. 8)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image8.png}}
+
+}
+
+\caption{Создание ключа ed25519}
+
+\end{figure}%
+
+Теперь создадим ключ gpg. Выбираем из предложенныч вариантов первый тип
+(RSA или RSA), размер задаем 4096 бит, срок действия выбираем 0. (рис.
+9)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image9.png}}
+
+}
+
+\caption{Создание ключа pgp}
+
+\end{figure}%
+
+После вводим свои данные: имя и адрес эл.почты;псоле соглашаемся с
+генрацией ключа (рис. 10)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image10.png}}
+
+}
+
+\caption{Создание ключа pgp}
+
+\end{figure}%
+
+Далее выводим список pgp ключей (рис. 11)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image11.png}}
+
+}
+
+\caption{Выводим список ключей pgp}
+
+\end{figure}%
+
+Копируем наш ключ в буфер обмена (рис. 12)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image12.png}}
+
+}
+
+\caption{Копирование pgp ключа}
+
+\end{figure}%
+
+Вставляем этот ключ на github, задаем ему имя. У меня это имя Fedora
+(рис. 13)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image13.png}}
+
+}
+
+\caption{Вставляю ключ в Github}
+
+\end{figure}%
+
+Теперь произведем настройку автоматических подписей (рис. 14)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image14.png}}
+
+}
+
+\caption{Настраиваю автоматические подписи}
+
+\end{figure}%
+
+Теперь нам надо было авторизоваться на Github с помощью gh. Выибираю
+сайт для авторизации(Github), выбираю протокол(SSH), публичный SSH ключ
+(id\_rsa.pub), имя для ключа(Fedora). В качестве способа авторизации
+выбираю браузер (рис. 15)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image15.png}}
+
+}
+
+\caption{Авторизация в gh}
+
+\end{figure}%
+
+Теперь создаем рабочую директорию курса(у меня уже создана) и переходим
+в нее с помощью cd. (рис. 16)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image16.png}}
+
+}
+
+\caption{Перехожу в директорию курса}
+
+\end{figure}%
+
+Далее создаем репозиторий для лабораторных работ из шаблона (рис. 17)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image17.png}}
+
+}
+
+\caption{Создаю репозиторий для лабораторных работ}
+
+\end{figure}%
+
+Клонируем его на свой компьютер (рис. 18)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image18.png}}
+
+}
+
+\caption{Клонирование репозитория}
+
+\end{figure}%
+
+Перходим в него с помощью cd и удаляем ненужные файлы(package.json) и
+создаем необходимые каталоги, записав в файл COURSE строку os-intro(наш
+текущий курс), прописываем make, чтобы нужные нам каталоги создались
+(рис. 19)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image19.png}}
+
+}
+
+\caption{Удаляю ненужные файлы и ввожу комнаду make}
+
+\end{figure}%
+
+Теперь добавляем нашу папку для отправки с помщью git add . (рис. 20)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image20.png}}
+
+}
+
+\caption{Добавляю папку для отправки на github}
+
+\end{figure}%
+
+Деалем коммит, в котором указываем, что мы сделали структуру курса (рис.
+21)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image21.png}}
+
+}
+
+\caption{Ипсользую git commit}
+
+\end{figure}%
+
+Отправляю файлы на сервер Github c помощью команды push (рис. 22)
+
+\begin{figure}
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{image/image22.png}}
+
+}
+
+\caption{Использую git push}
+
+\end{figure}%
+
+\chapter{Выводы}\label{ux432ux44bux432ux43eux434ux44b}
+
+Была произведена настройка git, проведена его первоначальная настройка,
+были созданы елючи для авторизации и подписи, а также создан репозиторий
+курса из предложенного шаблона.
+
+\chapter{Ответы на контрольные
+вопросы}\label{ux43eux442ux432ux435ux442ux44b-ux43dux430-ux43aux43eux43dux442ux440ux43eux43bux44cux43dux44bux435-ux432ux43eux43fux440ux43eux441ux44b}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Системы контроля версий -- это системы, в которых мы можем хранить
+  свои проекты и выкладывать их обновления, контролируя релизы и каждые
+  внесённые изменения. Эти системы нужны для работы над проектами, чтобы
+  иметь возможность контролировать версии проектов и в случае командной
+  работы контролировать изменения, внесённые всеми участниками. Также,
+  VCS позволяют откатываться на более ранние версии
+\item
+  Хранилище -- репозиторий, в нём хранятся все файлы проекта и все его
+  версии\\
+  commit -- внесённые изменения в репозитории\\
+  история -- это история изменений файлов проекта\\
+  рабочая копия -- копия, сделанная из версии репозитория, с которой
+  непосредственно работает сам разработчик
+\item
+  Централизованные системы контроля версий имеют один центральный
+  репозиторий, с которым работают все разработчики. Примером является
+  CVS, который является уже устаревшей системой.\\
+  В децентрализованных системах же используется множество репозиториев
+  одного проекта у каждого из разработчиков, при этом репозитории можно
+  объединять брать из каждого только то, что нужно. Примером является
+  знакомый нам Git
+\item
+  Создаётся репозиторий, и разрабатывается проект. При внесении
+  изменений файлы отправляются на сервер
+\item
+  Разработчик клонирует репозиторий к себе на компьютер, и после
+  внесения изменений выгружает их на сервер в качестве отдельной версии.
+  После этого разработчики с более высокими правами могут, например,
+  объединить его версию с текущей
+\item
+  Хранение файлов проекта, а также обеспечение командной работы, и
+  контроль за версиями проекта
+\item
+  git clone -- клонирует проект с сервера на компьютер\\
+  git add -- добавляет папку для выгрузки на сервер\\
+  git commit -- фиксирует изменения репозитория\\
+  git push -- выгружает изменения на сервер\\
+  git pull -- получить изменения с сервера\\
+  git rm -- удалить файл\\
+  git status -- получить статус репозитория
+\item
+  С локальным: git commit -am \enquote{added files} -- создаёт коммит С
+  удалённым: git push -- загрузить данные на удалённый сервер
+\item
+  Ветки -- это несколько независимых копий проекта, в каждой из которых
+  ведётся разработка какой-то конкретной функции, при этом ветки
+  существуют параллельно. Они нужны, когда нужно параллельно вести
+  разработку нескольких функций, а в конце их можно объединить в одну
+\item
+  Игнорировать файлы можно, внося их в файл .gitignore. Игнорировать
+  файлы нужно, когда их не нужно добавлять в репозиторий. Например, это
+  могут быть файлы виртуального окружения (venv)
+\end{enumerate}
+
+\chapter*{Список
+литературы}\label{ux441ux43fux438ux441ux43eux43a-ux43bux438ux442ux435ux440ux430ux442ux443ux440ux44b}
+\addcontentsline{toc}{chapter}{Список литературы}
+
+\printbibliography[heading=none]
+
+
+
+
+
+\end{document}
